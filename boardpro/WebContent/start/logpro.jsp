@@ -9,6 +9,23 @@
 <script src="../js/jquery-3.7.1.min.js"></script>
 <script>
 	$(document).ready(function () {
+		$('#logout').on('click', function() {
+			fetch('<%=request.getContextPath()%>/LogOutServlet.ddit')
+			.then(response => {
+				if(response.ok) {
+					return response.text();
+				}else{
+					throw new Error(`${response.status}`);
+				}
+			})
+			.then(res => {
+				$('.dlog').html(res);
+			})
+			.catch(error => {
+				alert(error);
+			})
+		});//click
+		
 		$('#login').on('click', function () {
 			//입력한 id와 pass를 가져온다
 			vid = $('#id').val().trim();
