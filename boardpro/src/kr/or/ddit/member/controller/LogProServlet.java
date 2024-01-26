@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.websocket.Session;
 
 import com.google.gson.Gson;
@@ -41,8 +42,20 @@ public class LogProServlet extends HttpServlet {
 		//service메소드 호출 - 결과값 얻기
 		MemberVo res = service.logSelect(vo);
 		//session에 저장
+		HttpSession session = request.getSession();
 		
+		//로그인 성공 실패?
+		if(res != null) {
+			//로그인 성공
+			//session에 저장
+			session.setAttribute("loginok", res);
+			session.setAttribute("check", "true");
+		}else {
+			//로그인 실패
+			session.setAttribute("check", "false");
+		}
 		//view페이지로 이동 - logpro.jsp
+		request.getRequestDispatcher("/start/logpro.jsp").forward(request, response);
 	}
 
 }

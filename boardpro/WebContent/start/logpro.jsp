@@ -12,7 +12,7 @@
 		$('#login').on('click', function () {
 			//입력한 id와 pass를 가져온다
 			vid = $('#id').val().trim();
-			vpass = $('#pass').val.trim();
+			vpass = $('#pass').val().trim();
 			
 			vdata = {"mem_id" : vid, "mem_pass" : vpass};
 			
@@ -21,6 +21,7 @@
 				data: JSON.stringify(vdata),
 				type: 'post',
 				success : function(res) {
+					$('.dlog').html(res);
 					
 				},
 				error : function(xhr) {
