@@ -1,0 +1,85 @@
+ @charset "UTF-8";
+
+html, body {padding:0; margin:0; height:100%; width: 100%;   }
+
+body *{
+  box-sizing:   border-box;
+}
+
+body{
+  min-width : 1000px;
+}
+/* #result{
+  width : 100%;
+  padding : 1px;
+} */
+.container{
+   margin : 5px;
+   max-width : 99%;
+}
+.p12{
+  display: flex;
+  flex-direction:  row;
+}
+p{
+   border  : 1px dotted lightgray;
+   padding : 5px;
+   margin  :2px;
+}
+.p1{
+   flex:  70%;
+   word-break:keep-all; /* 줄바꿈: 단어단위로  */
+}
+.p2{
+   flex : 30%;
+   text-align:  right;
+}
+
+.card-body{
+   display:  flex;
+   flex-direction:  column;
+}
+input[name=reply]{
+   height : 55px;
+   vertical-align: top;
+}
+textarea {
+	width : 70%;
+}
+
+nav {
+  margin: 2%;
+}
+
+nav a{
+ visibility: hidden;
+}
+#pagelist{
+   margin-left : 10%;
+}
+.card-header:hover{
+  background : #0078FF;
+}
+.reply-body{
+  border : 1px dotted orange;
+  background : #efdada;
+  margin : 2px;
+  padding : 2px;
+}
+
+.modal label{
+  width : 100px;
+  height : 30px;
+}
+
+span.pa{
+ display : none;/* listPageServer에서 password  를 안보이도록*/
+}
+
+#modifyform{
+  display: none;
+}
+#btnok, #btnreset{
+  height : 40px;
+  vertical-align: bottom;
+}

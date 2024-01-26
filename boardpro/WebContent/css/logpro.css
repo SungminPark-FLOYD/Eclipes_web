@@ -1,0 +1,62 @@
+@charset "UTF-8";
+
+html, body {padding:0; margin:0; height:100%; width: 100%;   }
+   
+   
+	
+	 header{
+	        box-sizing:border-box;
+			padding:4%;  
+	        	          
+	         height: 200px;
+    		 border: 2px dotted gold;
+    		 margin: 30px;
+    		 
+	         background-image:linear-gradient( to bottom,  CornflowerBlue, white);
+	  }
+
+ 	section {
+ 	        box-sizing:border-box; 
+	         
+	          height:100%;
+	          padding:3%; 
+	          margin: 30px;
+	   }
+ 	
+	
+	 div.dlog{
+	   box-sizing: border-box;
+	 
+	   border : 1px dotted blue;
+	   padding :10px;
+	   display : flex;
+	   flex-direction:  row;
+	   flex-wrap: wrap;
+	}
+	
+	.dlog input{
+	  box-sizing: border-box;
+	  width : calc(150px - 1%);
+	  height : 30px;
+	} 
+	nav , #write{
+	  margin : 10px 5% ;
+	}
+	nav a{
+	   visibility:  hidden;
+	}
+	#stype {
+	  width : 100px;
+	}
+	#sword {
+	  width : 150px;
+	}
+	
+ iframe {
+   width: 100%;
+   height : 100%;
+   border : none;
+ }
+ #check{
+   color : red;
+ }

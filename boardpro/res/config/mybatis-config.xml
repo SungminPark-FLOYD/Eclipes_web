@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- MyBatis의 환경 설정 파일 -->
+<!DOCTYPE configuration PUBLIC "-//mybatis.org/DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- 연결할 DB정보를 갖고 있는 properties파일 지정하기 -->
+<!--    JDBCTest/src/main/resources/config/dbinfo.properties-->
+    <properties resource="config/dbinfo.properties"/>
+
+    <settings>
+<!--        데이터가 null로 전달이 되면 빈칸으로 인지 말고 null로 인식하라 ..-->
+        <setting name="jdbcTypeForNull" value="NULL"/>
+    </settings>
+    <typeAliases>
+<!--
+           VO객체를 사용할 때는 패키지명까지 포함된 전체 이름을 사용해야 하는데
+           이렇게 되면 전체 이름이 길어지게 된다.
+           긴 전체 이름 대신 짧은 이름으로 대체해서 사용하고자 할 때 설정한다.
+           형식) <typeAliases type="패키지명까지 포함된 전체 이름" alias="alias명"/>
+           -->
+        <typeAlias type="kr.or.ddit.board.vo.BoardVo" alias="BoardVo"/>
+        <typeAlias type="kr.or.ddit.board.vo.ReplyVo" alias="ReplyVo"/>
+        <typeAlias type="kr.or.ddit.member.vo.MemberVo" alias="MemberVo"/>
+        <typeAlias type="kr.or.ddit.member.vo.ZipVo" alias="ZipVo"/>
+    </typeAliases>
+<!--    DB에 연결 설정하기-->
+    <environments default="oracleDev">
+        <environment id="oracleDev">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${user}"/>
+                <property name="password" value="${pass}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <!-- DB에 사용되는 SQL문들이 작성된 mapper파일을 등록한다. -->
+    <mappers>
+<!--
+        형식 ) <mapper resource="경로명/파일명.xml"/>
+    -->
+        <mapper resource="mappers/board-mapper.xml"/>
+        <mapper resource="mappers/member-mapper.xml"/>
+    </mappers>
+</configuration>
