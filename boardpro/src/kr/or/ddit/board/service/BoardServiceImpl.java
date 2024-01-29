@@ -1,5 +1,6 @@
 package kr.or.ddit.board.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,8 +49,36 @@ public class BoardServiceImpl implements IBoardService{
 
 	@Override
 	public PageVo pageInfo(int pageNo, String stype, String sword) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("stype",stype);
+		map.put("sword",sword);
+		//전체 글 갯수
+		int count = this.getTotalCount(map);
 		
-		return null;
+		//전체 페이지 수 구하기
+		int perList = PageVo.getPerList();
+		int totalPage = (int)Math.ceil((double)count / perList);
+		
+		//시작글번호 끝 글번호
+		//1 -> 1~3, 2-> 4~6, 3-> 7~9
+		int start = (pageNo-1) * perList  + 1;
+		int end = start + perList - 1;
+		if(end > count) end = count;
+		
+		//시작페이지 끝페이지
+		//[1] -> 1~2, [2] -> 1~2, [3] -> 3~4, [4] -> 3~4
+		int perPage = PageVo.getPerPage();
+		int startPage = ((pageNo-1) / perPage * perPage)+1;
+		int endPage = startPage + perPage - 1;
+		if(endPage > totalPage) endPage = totalPage;
+		
+		PageVo vo = new PageVo();
+		vo.setStart(start);
+		vo.setEnd(end);
+		vo.setStartPage(startPage);
+		vo.setEndPage(endPage);
+		vo.setTotalPage(totalPage);
+		return vo;
 	}
 
 	@Override
