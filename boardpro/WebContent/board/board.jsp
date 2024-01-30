@@ -1,3 +1,5 @@
+<%@page import="com.google.gson.Gson"%>
+<%@page import="kr.or.ddit.member.vo.MemberVo"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@page isELIgnored="true" %>
@@ -12,7 +14,21 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <link rel="stylesheet" href="../css/board.css">
 <script src="../js/board.js"></script>
+<script src="../js/jquery.serializejson.min.js"></script>
 <script>
+<%
+//로그인 체크 - sessio의 값을 가져오기 - 비교하기
+	MemberVo vo = (MemberVo)session.getAttribute("loginok");
+	//json 형태로 변환
+	String ss = null;
+	
+	Gson gson = new Gson();
+	if(vo != null) ss = gson.toJson(vo);
+	/* ss = { "mem_id" : "a001",
+			"mem_name" : "김은대"-
+	} */
+%>
+	uvo = <%= ss%>;
 	var currentPage = 1;
 	var myPath = '<%= request.getContextPath()%>';
 	$(document).ready(function () {
@@ -24,12 +40,57 @@
 		$('#search').on('click', function(){
 			$.listPageServer();
 		})
+		
+		//next다음 이벤트
+		$(document).on('click', '#next', function () {
+			currentPage = parseInt($('.pageno').last().text()) + 1;
+			$.listPageServer();
+		})
+		
+		//prev이전 이벤트
+		$(document).on('click', '#prev', function () {
+			currentPage = parseInt($('.pageno').first().text()) - 1;
+			$.listPageServer();
+		})
+		
+		//페이지 번호.pageno 이벤트
+		$(document).on('click', '.pageno', function(){
+			currentPage = parseInt($(this).text());
+			$.listPageServer();
+		})
+		
+		//글쓰기 이벤트
+		$('#write').on('click', function() {
+			
+			if(uvo == null) {
+				alert("로그인하세요")
+			}else {	
+				$('#wModal').modal('show');
+				$('#wname').val(uvo.mem_name);
+			}
+		})
+		
+		//글쓰기 전송 이벤트
+		$('#wsend').on('click', function(){
+			//입력한 모든 값을 가져온다
+			fdata = $('#wform').serializeJSON();
+			console.log(fdata);
+			
+			//서버로 전송
+			$.boardWriteServer();
+			
+			//모달창 닫기
+			$('.txt').val("");
+			$('#wModal').modal('hide');
+			
+		})
 	})
 </script>
 
 </head>
 <body>
 <h1>게시판</h1>
+<input type="button" value="글쓰기" id="write"><br><br>
 
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
   <div class="container-fluid">
@@ -66,7 +127,43 @@
 
 <div id="result"></div>
 <br><br>
-<div id="pageList"></div>
+<div id="pagelist"></div>
+<br>
+<!-- 글쓰기 modal-->
+<div class="modal" id="wModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
 
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">글쓰기</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form name="wform" id="wform">
+        	<label>제목</label>
+        	<input type="text" class="txt" id="wsubject" name="subject"><br>
+        	<label>이름</label>
+        	<input type="text" class="txt" id="wname" name="writer" readonly><br>
+        	<label>메일</label>
+        	<input type="text" class="txt" id="wmail" name="mail"><br>
+        	<label>비밀번호</label>
+        	<input type="text" class="txt" id="wpassword" name="password"><br>
+        	<label>내용</label><br>
+        	<textarea rows="5" cols="50" class="txt" id="wcontent" name="content" class="content"></textarea><br><br>
+        	<input type="submit" value="확인" id="wsend" class="btn btn-success"><br>
+        </form>
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
 </body>
 </html>
