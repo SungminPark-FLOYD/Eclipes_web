@@ -1,5 +1,6 @@
 package kr.or.ddit.board.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 import kr.or.ddit.board.util.mybatisUtil;
 import kr.or.ddit.board.vo.BoardVo;
 import kr.or.ddit.board.vo.PageVo;
+import kr.or.ddit.board.vo.ReplyVo;
 
 public class BoardDaoImpl implements IBoardDao {
 	private static BoardDaoImpl instance = null;
@@ -120,6 +122,41 @@ public class BoardDaoImpl implements IBoardDao {
 		}finally { if(session != null) session.close();}
 		
 		return cnt;
+	}
+	@Override
+	public int insertReply(ReplyVo vo) {
+		int cnt = 0;
+		SqlSession session = null;
+		
+		try {
+			session = mybatisUtil.getSqlSession();
+			cnt = session.insert("reply.insertReply", vo);
+				
+			if(cnt > 0) session.commit();
+			
+		}  catch (Exception e) {
+			e.printStackTrace();
+		}finally { if(session != null) session.close();}
+		
+		return cnt;
+	}
+	@Override
+	public List<ReplyVo> replyList(int bonum) {
+		List<ReplyVo> voList = null;
+		SqlSession session = null;
+		
+		try {
+			session = mybatisUtil.getSqlSession();
+			voList = new ArrayList<ReplyVo>();
+			voList = session.selectList("reply.replyList", bonum);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally { if(session != null) session.close();}
+		
+		
+
+		return voList;
 	}
 
 }

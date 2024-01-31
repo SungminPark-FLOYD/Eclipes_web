@@ -5,6 +5,7 @@ import java.util.Map;
 
 import kr.or.ddit.board.vo.BoardVo;
 import kr.or.ddit.board.vo.PageVo;
+import kr.or.ddit.board.vo.ReplyVo;
 
 public interface IBoardService {
 
@@ -27,8 +28,12 @@ public interface IBoardService {
 	public PageVo pageInfo(int pageNo, String stype, String sword);
 	
 	//댓글 쓰기
+	public int insertReply(ReplyVo vo);
 	
 	//댓글 수정
 	
 	//댓글 삭제
+	
+	//댓글 리스트
+	public List<ReplyVo> replyList(int bonum);
 }

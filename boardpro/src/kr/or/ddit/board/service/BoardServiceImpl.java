@@ -11,6 +11,7 @@ import kr.or.ddit.board.dao.IBoardDao;
 import kr.or.ddit.board.util.mybatisUtil;
 import kr.or.ddit.board.vo.BoardVo;
 import kr.or.ddit.board.vo.PageVo;
+import kr.or.ddit.board.vo.ReplyVo;
 
 public class BoardServiceImpl implements IBoardService{
 	private static BoardServiceImpl instance = null;
@@ -84,6 +85,16 @@ public class BoardServiceImpl implements IBoardService{
 	@Override
 	public int updateHit(int num) {
 		return dao.updateHit(num);
+	}
+	@Override
+	public int insertReply(ReplyVo vo) {
+		
+		return dao.insertReply(vo);
+	}
+	@Override
+	public List<ReplyVo> replyList(int bonum) {
+		
+		return dao.replyList(bonum);
 	}
 
 }

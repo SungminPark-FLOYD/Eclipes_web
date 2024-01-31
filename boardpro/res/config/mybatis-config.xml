@@ -42,5 +42,6 @@
     -->
         <mapper resource="mappers/board-mapper.xml"/>
         <mapper resource="mappers/member-mapper.xml"/>
+        <mapper resource="mappers/reply-mapper.xml"/>
     </mappers>
 </configuration>

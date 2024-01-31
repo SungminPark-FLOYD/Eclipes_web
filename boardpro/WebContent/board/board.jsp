@@ -31,6 +31,7 @@
 	uvo = <%= ss%>;
 	var currentPage = 1;
 	var myPath = '<%= request.getContextPath()%>';
+	var reply = {}; //객체;
 	$(document).ready(function () {
 		//시작하자마자  listlistPageServer를 호출하여
 		//결과를 출력한다
@@ -60,6 +61,11 @@
 		})
 		
 		//글쓰기 이벤트
+		//submit일때
+		/* $('#wform').on('submit', function() {
+			event.preventDeault();
+			//이벤트 지우고 다시 이벤트 주기
+		}) */
 		$('#write').on('click', function() {
 			
 			if(uvo == null) {
@@ -83,6 +89,43 @@
 			$('.txt').val("");
 			$('#wModal').modal('hide');
 			
+		})
+		
+		//수정, 삭제, 등록, 제목 클릭 이벤트
+		$(document).on('click', '.action', function() {
+			vaction = $(this).attr('name');
+			vidx = $(this).attr('idx');
+			
+			gtarget = this;
+			
+			if(vaction == "delete"){
+				alert(vidx + "번 글을 삭제 합니다");
+				
+			}else if(vaction == "modify") {
+				alert(vidx + "번 글을 수정 합니다");
+			}else if(vaction == "reply") {
+				//alert(vidx + "번 글에 댓글을 답니다");
+				
+				//입력한 값을 가져온다
+				vcont = $(this).prev().val();
+				
+				reply.cont = vcont;
+				reply.name = uvo.mem_name;
+				reply.bonum = vidx;
+				
+				//서버로 전송
+				$.replyInsertServer();
+				
+				//댓글 지우기
+				$(this).prev().val("");
+				
+			}else if(vaction == "title"){
+				$.replyList();
+			}else if(vaction == "r_modify"){
+				alert(vidx + "번 댓글을 수정합니다");
+			}else if(vaction == "r_delete"){
+				alert(vidx + "번 댓글을 삭제합니다");
+			}
 		})
 	})
 </script>
@@ -153,7 +196,7 @@
         	<input type="text" class="txt" id="wpassword" name="password"><br>
         	<label>내용</label><br>
         	<textarea rows="5" cols="50" class="txt" id="wcontent" name="content" class="content"></textarea><br><br>
-        	<input type="submit" value="확인" id="wsend" class="btn btn-success"><br>
+        	<input type="button" value="확인" id="wsend" class="btn btn-success"><br>
         </form>
       </div>
 

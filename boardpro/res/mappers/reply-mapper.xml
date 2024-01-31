@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0/EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="reply">
+<!--  댓글 저장 -->
+<insert id="insertReply" parameterType="ReplyVo">
+	insert into replytab
+		values(replytab_renum_seq.nextval, #{bonum}, #{name}, #{cont}, sysdate)
+</insert>
+
+<select id="replyList" parameterType="int" resultType="ReplyVo">
+	select * from replytab where bonum=#{data}
+</select>
+</mapper>
