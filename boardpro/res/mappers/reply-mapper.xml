@@ -12,4 +12,11 @@
 <select id="replyList" parameterType="int" resultType="ReplyVo">
 	select * from replytab where bonum=#{data}
 </select>
+<update id="updateReply" parameterType="ReplyVo">
+	update replytab set cont = #{cont}, redate = sysdate where renum = #{renum}
+</update>
+
+<delete id="deleteReply" parameterType="int">
+	delete replytab where renum = #{rnum}
+</delete>
 </mapper>

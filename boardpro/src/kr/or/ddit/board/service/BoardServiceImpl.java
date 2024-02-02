@@ -96,5 +96,15 @@ public class BoardServiceImpl implements IBoardService{
 		
 		return dao.replyList(bonum);
 	}
+	@Override
+	public int updateReply(ReplyVo vo) {
+		
+		return dao.updateReply(vo);
+	}
+	@Override
+	public int deleteReply(int rnum) {
+		
+		return dao.deleteReply(rnum);
+	}
 
 }

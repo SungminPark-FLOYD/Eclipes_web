@@ -158,5 +158,39 @@ public class BoardDaoImpl implements IBoardDao {
 
 		return voList;
 	}
+	@Override
+	public int updateReply(ReplyVo vo) {
+		int cnt = 0;
+		SqlSession session = null;
+		
+		try {
+			session = mybatisUtil.getSqlSession();
+			cnt = session.update("reply.updateReply", vo);
+			
+			if(cnt > 0) session.commit();
+			
+		}  catch (Exception e) {
+			e.printStackTrace();
+		}finally { if(session != null) session.close();}
+		
+		return cnt;
+	}
+	@Override
+	public int deleteReply(int rnum) {
+		int cnt = 0;
+		SqlSession session = null;
+		
+		try {
+			session = mybatisUtil.getSqlSession();
+			cnt = session.delete("reply.deleteReply", rnum);
+			
+			if(cnt > 0) session.commit();
+			
+		}  catch (Exception e) {
+			e.printStackTrace();
+		}finally { if(session != null) session.close();}
+		
+		return cnt;
+	}
 
 }

@@ -1,4 +1,83 @@
 
+$.boardUpdateServer = function() {
+	$.ajax({
+		url : `${myPath}/BoardUpdate.do`,
+		method : 'post',
+		data : JSON.stringify(board),
+		success : function(res) {	
+			//모달창에 입력된 내용으로 본은의 내용을 변경
+			//수정 버튼 객체 자신
+			$(vparent).find('.wr').text(board.writer);
+			$(vparent).find('.em').text(board.mail);
+			$(vparent).find('a').text(board.subject);
+
+			cont = board.content.replaceAll(/\n/g, "<br>");
+			$(vparent).find('.wp3').html(cont);
+			
+			//날짜 변경
+			today = new Date();
+			today = today.toLocaleString();
+			$(vparent).find('.da').text(today);
+			
+		},
+		error : function(xhr) {
+			alert("상태 : " + xhr.status);
+		},
+		dataType : 'json'
+	})
+}
+
+$.boardDeleteServer = function() {
+	$.ajax({
+		url : `${myPath}/BoardDelete.do`,
+		method : 'get',
+		data : {"num" : vidx}, //bonum
+		success : function(res) {			
+			if(res.flag == "성공"){
+				$.listPageServer();
+			}
+		},
+		error : function(xhr) {
+			alert("상태 : " + xhr.status);
+		},
+		dataType : 'json'
+	})
+}
+
+$.replyUpdateServer = function() {
+	$.ajax({
+		url : `${myPath}/ReplyUpdate.do`,
+		method : 'post',
+		data : JSON.stringify(reply), //cont, renum
+		success : function(res) {
+			
+			//성공하면 화면 갱신
+			$(p3).html(modiout);
+		},
+		error : function(xhr) {
+			alert("상태 : " + xhr.status);
+		},
+		dataType : 'json'
+	})
+}
+
+$.replyDelete = function() {
+	$.ajax({
+		url : `${myPath}/ReplyDelete.do`,
+		method : 'get',
+		data : {"renum" : vidx}, 	
+		success : function(res) {
+		
+			//DB에서 삭제 성공시 화면 삭제
+			$(gtarget).parents('.reply-body').remove();
+		},
+		error : function(xhr) {
+			alert("상태 : " + xhr.status);
+		},
+		dataType : 'json'
+	})
+}
+
 
 $.replyList = function() {
 	$.ajax({
@@ -119,10 +198,10 @@ $.listPageServer = function() {
 					        <div class="card-body">
 						        <div class="p12">
 						        	<p class="p1">
-						        		작성자 <span>${v.writer}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						        		이메일<span>${v.mail}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						        		조회수<span>0</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						        		날짜<span>${v.wdate}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						        		작성자 <span class="wr">${v.writer}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						        		이메일<span class="em">${v.mail}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						        		조회수<span class="hi">0</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						        		날짜<span class="da">${v.wdate}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						        	</p>
 						        	<p class="p2">`
 
@@ -133,7 +212,7 @@ $.listPageServer = function() {
 
 						code += `</p>
 						        </div> 
-						        <p class="p3">${cont}</p>
+						        <p class="p3 wp3">${cont}</p>
 						        <p class="p4">
 						        	<textarea rows="5" cols="50" class="area"></textarea>
 						        	<input idx="${v.num}" type="button" value="등록" name="reply" class="action">

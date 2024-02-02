@@ -26,9 +26,11 @@ public interface IBoardDao {
 	
 	//댓글 쓰기
 	public int insertReply(ReplyVo vo);
-	//댓글 수정
 	
+	//댓글 수정
+	public int updateReply(ReplyVo vo);
 	//댓글 삭제
+	public int deleteReply(int rnum);
 	
 	//댓글리스트
 	public List<ReplyVo> replyList(int bonum);
