@@ -163,7 +163,18 @@
 				$(this).prev().val("");
 				
 			}else if(vaction == "title"){
+				//댓글 리스트
 				$.replyList();
+				
+				//조회수 증가
+				vexp = $(this).attr("aria-expanded");
+				if(vexp == "true") {
+					
+					//서버로 전송 => DB의 값을 변경 - 성공하면 회면의 조회수를 변경
+					$.updateHitServer();
+								
+				}
+				
 			}else if(vaction == "r_modify"){
 				
 				//modifyform이 열려 있는 지 비교

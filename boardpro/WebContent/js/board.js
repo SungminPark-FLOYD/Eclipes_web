@@ -1,4 +1,22 @@
 
+$.updateHitServer = function() {
+	$.ajax({
+		url : `${myPath}/HitUpdate.do`,
+		data : { "num" : vidx },
+		metohd : 'get',
+		success : function(res) {			
+			hitext = $(gtarget).parents('.card').find('.hi').text().trim();
+			hitext = parseInt(hitext) + 1;
+			
+			$(gtarget).parents('.card').find('.hi').text(hitext);
+		},
+		error : function(xhr) {
+			alert("상태 : " + xhr.status + "\n" + xhr.statusText);
+		},
+		dataType : 'json'
+	})	
+}
+
 $.boardUpdateServer = function() {
 	$.ajax({
 		url : `${myPath}/BoardUpdate.do`,
@@ -200,7 +218,7 @@ $.listPageServer = function() {
 						        	<p class="p1">
 						        		작성자 <span class="wr">${v.writer}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						        		이메일<span class="em">${v.mail}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						        		조회수<span class="hi">0</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						        		조회수<span class="hi">${v.hit}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						        		날짜<span class="da">${v.wdate}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						        	</p>
 						        	<p class="p2">`
